@@ -5,7 +5,7 @@
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Scanner;
+import java.util.*;
 
 // TODO: 11.02.2023
 //  После того как ты закончил предыдущий метод можешь приступить к следуещему.
@@ -31,31 +31,76 @@ public class CityMethodsImpl implements CityMethods {
                     city.setFoundation(fileContent[5]);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     city.setFoundation(null);
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                 }
                 cities[i] = city;
                 i++;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return cities;
     }
 
     @Override
     public void printAllCities(City[] cities) {
-        for (int i = 0; i < cities.length; i++) {
-            System.out.println(cities[i]);
+        for (City city : cities) {
+            System.out.println(city);
+
         }
+
+
     }
+
 
     @Override
     public void groupByRegion(City[] cities) {
+
+        List<String> regions = new ArrayList<>();
+        int counter = 0;
+        for (City city : cities) {
+            //if (!regions.contains(city.getRegion())) {
+            regions.add(city.getRegion());
+            counter++;
+            // }
+        }
+        Map<String, Integer> map = new HashMap<>();
+        int counter1 = 0;
+        int counter2 = 0;
+        for (String region1 : regions) {
+            for (String region2 : regions) {
+                if (region1.equals(region2)) {
+                    counter1++;
+                    counter2 += counter1;
+                    map.put(region1, counter2);
+                    counter1 = 0;
+                }
+            }
+            counter2 = 0;
+        }
+
+
+        for (Map.Entry<String, Integer> m: map.entrySet()){
+            System.out.println(m.getKey() + ":" + m.getValue());
+        }
+
 
     }
 
     @Override
     public void searchByName(String name) {
+        City[] cities = readFile();
+        for (int i = 0; i < cities.length; i++) {
+            if (name.equals(cities[i].getName())) {
+                System.out.println(cities[i]);
+            }
+
+        }
+
 
     }
+
+
 }
+
+
